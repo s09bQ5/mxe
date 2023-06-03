@@ -22,6 +22,7 @@ define $(PKG)_BUILD
         -DENABLE_SHARED=$(CMAKE_SHARED_BOOL) \
         -DENABLE_STATIC=$(CMAKE_STATIC_BOOL) \
         -DCMAKE_INSTALL_PREFIX='$(PREFIX)/$(TARGET)' \
+        -DCMAKE_BUILD_TYPE=RelWithDebInfo \
         -DCMAKE_ASM_NASM_COMPILER=$(TARGET)-yasm
     $(MAKE) -C '$(BUILD_DIR)' -j '$(JOBS)'
     $(MAKE) -C '$(BUILD_DIR)' -j 1 install
