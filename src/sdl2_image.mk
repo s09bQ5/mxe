@@ -4,9 +4,11 @@ PKG             := sdl2_image
 $(PKG)_WEBSITE  := https://www.libsdl.org/
 $(PKG)_DESCR    := SDL2_image
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 2.0.5
-$(PKG)_CHECKSUM := 76b7f67f4c1a5f8368658f0e1e59bdaa4555d1cc7f3a4413178cd735019983ff
-$(PKG)_GH_CONF  := libsdl-org/SDL_image/releases/tag,release-,,
+$(PKG)_VERSION  := 2.6.3
+$(PKG)_CHECKSUM := 931c9be5bf1d7c8fae9b7dc157828b7eee874e23c7f24b44ba7eff6b4836312c
+$(PKG)_SUBDIR   := SDL2_image-$($(PKG)_VERSION)
+$(PKG)_FILE     := SDL2_image-$($(PKG)_VERSION).tar.gz
+$(PKG)_URL      := https://www.libsdl.org/projects/SDL_image/release/$($(PKG)_FILE)
 $(PKG)_DEPS     := cc jpeg libpng libwebp sdl2 tiff
 
 define $(PKG)_BUILD
@@ -18,6 +20,7 @@ define $(PKG)_BUILD
         --disable-jpg-shared \
         --disable-webp-shared \
         --disable-png-shared \
-        --disable-tif-shared
+        --disable-tif-shared \
+        --disable-stb-image
     $(MAKE) -C '$(1)' -j '$(JOBS)' install bin_PROGRAMS= sbin_PROGRAMS= noinst_PROGRAMS=
 endef
