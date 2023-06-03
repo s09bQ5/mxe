@@ -1,0 +1,20 @@
+diff --git a/meson.build b/meson.build
+index 2e2974d..b6791fb 100644
+--- a/meson.build
++++ b/meson.build
+@@ -109,13 +109,13 @@ if host_machine.system() == 'windows'
+ 
+     if host_machine.cpu_family() == 'x86_64'
+         if cc.get_argument_syntax() != 'msvc'
+-            optional_link_arguments += '-Wl,--dynamicbase,--nxcompat,--tsaware,--high-entropy-va'
++            optional_link_arguments += '-Wl,--nxcompat,--tsaware,--high-entropy-va'
+         endif
+     elif host_machine.cpu_family() == 'x86' or host_machine.cpu_family() == 'arm'
+         if cc.get_argument_syntax() == 'msvc'
+             optional_link_arguments += '/largeaddressaware'
+         else
+-            optional_link_arguments += '-Wl,--dynamicbase,--nxcompat,--tsaware,--large-address-aware'
++            optional_link_arguments += '-Wl,--nxcompat,--tsaware,--large-address-aware'
+         endif
+     endif
+ 
