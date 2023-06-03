@@ -31,6 +31,8 @@ define $(PKG)_BUILD_SHARED
     $(MAKE) -C '$(1)' -f win32/Makefile.gcc \
         SHARED_MODE=1 \
         STATICLIB= \
+        LOC=-g \
+        STRIP=true \
         BINARY_PATH='$(PREFIX)/$(TARGET)/bin' \
         INCLUDE_PATH='$(PREFIX)/$(TARGET)/include' \
         LIBRARY_PATH='$(PREFIX)/$(TARGET)/lib' \
