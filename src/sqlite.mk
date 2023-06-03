@@ -22,6 +22,27 @@ define $(PKG)_BUILD
         $(MXE_CONFIGURE_OPTS) \
         --disable-readline \
         --enable-threadsafe \
-        CFLAGS="-Os -DSQLITE_ENABLE_COLUMN_METADATA"
+        CFLAGS="-Os -g -DSQLITE_ENABLE_COLUMN_METADATA"
+    $(SED) -i 's:^/\*\+ Begin file \([^ ]\+\) \*\+/:#line 1 "\1":;s:^/\*\+ Continuing where we left off in \([^ ]\+\) \*\+/:#line xxx "\1":' $(1)/sqlite3.c
+    grep -n ^#line $(1)/sqlite3.c | $(SED) 's/:#line//;s/"//g;s/\./____/g' | ( \
+        fixup="" ; \
+        prev="" ; \
+        prevdelta=0 ; \
+        while read a b c ; do \
+            if [ -n "$$prev" ] ; then \
+                eval "line_$$prev=$$((a-prevdelta))" ; \
+            fi ; \
+            case $$b in \
+            xxx) \
+                 eval "b=\$$line_$$c" ; \
+                 fixup="$$fixup$${a}s/ xxx / $$b /;" ; \
+            esac ; \
+            eval "line_$$c=$$b" ; \
+            prevdelta="$$((a+1-b))" ; \
+            prev="$$c" ; \
+        done ; \
+        $(SED) -i "$$fixup" $(1)/sqlite3.c \
+    )
+
     $(MAKE) -C '$(1)' -j 1 install
 endef
