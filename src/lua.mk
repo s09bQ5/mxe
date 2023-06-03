@@ -43,7 +43,7 @@ endef
 define $(PKG)_BUILD
     $(MAKE) -C '$(1)/src' -j '$(JOBS)' \
         INSTALL_TOP='$(PREFIX)/$(TARGET)' \
-        CC='$(TARGET)-gcc' \
+        CC='$(TARGET)-gcc -g' \
         AR='$(TARGET)-ar rcu' \
         RANLIB='$(TARGET)-ranlib' \
         a lua
@@ -64,7 +64,7 @@ endef
 define $(PKG)_BUILD_SHARED
     $(MAKE) -C '$(1)/src' -j '$(JOBS)' \
         INSTALL_TOP='$(PREFIX)/$(TARGET)' \
-        CC='$(TARGET)-gcc' \
+        CC='$(TARGET)-gcc -g' \
         AR='$(TARGET)-gcc -Wl,--out-implib,liblua.dll.a -shared -o' \
         RANLIB='echo skipped ranlib' \
         SYSCFLAGS='-DLUA_BUILD_AS_DLL' \
