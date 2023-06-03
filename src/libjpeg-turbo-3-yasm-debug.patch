@@ -1,0 +1,35 @@
+From c739e5cbe54858b1fe2174f5b4a9faa464fecf3d Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Daniel=20Gl=C3=B6ckner?= <daniel-gl@gmx.net>
+Date: Mon, 29 May 2023 17:12:54 +0200
+Subject: [PATCH] Set assembly debug data format for Windows
+
+---
+ simd/CMakeLists.txt | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/simd/CMakeLists.txt b/simd/CMakeLists.txt
+index 6024900..c9d014c 100644
+--- a/simd/CMakeLists.txt
++++ b/simd/CMakeLists.txt
+@@ -60,6 +60,7 @@ elseif(CMAKE_ASM_NASM_OBJECT_FORMAT MATCHES "^elf")
+ endif()
+ if(CPU_TYPE STREQUAL "x86_64")
+   if(WIN32 OR CYGWIN)
++    set(CMAKE_ASM_NASM_DEBUG_FORMAT "dwarf2")
+     set(CMAKE_ASM_NASM_FLAGS "${CMAKE_ASM_NASM_FLAGS} -DWIN64")
+   endif()
+   set(CMAKE_ASM_NASM_FLAGS "${CMAKE_ASM_NASM_FLAGS} -D__x86_64__")
+@@ -78,9 +79,7 @@ if(NOT CMAKE_ASM_NASM_OBJECT_FORMAT)
+   return()
+ endif()
+ 
+-get_filename_component(CMAKE_ASM_NASM_COMPILER_TYPE
+-  "${CMAKE_ASM_NASM_COMPILER}" NAME_WE)
+-if(CMAKE_ASM_NASM_COMPILER_TYPE MATCHES "yasm")
++if(CMAKE_ASM_NASM_COMPILER_ID MATCHES "YASM")
+   foreach(var CMAKE_ASM_NASM_FLAGS_DEBUG CMAKE_ASM_NASM_FLAGS_RELWITHDEBINFO)
+     if(${var} STREQUAL "-g")
+       if(CMAKE_ASM_NASM_DEBUG_FORMAT)
+-- 
+2.23.0
+
