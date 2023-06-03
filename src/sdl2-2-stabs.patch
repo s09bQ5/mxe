@@ -1,0 +1,59 @@
+From 153aae1338f4cbfdd58bdb1cc22f4b6ac58f5e31 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Daniel=20Gl=C3=B6ckner?= <daniel-gl@gmx.net>
+Date: Mon, 29 May 2023 14:38:41 +0200
+Subject: [PATCH] Use stabs debugging info on 32 bit Windows
+
+---
+ configure.ac | 29 ++++++++++++++++++++++++++++-
+ 1 file changed, 28 insertions(+), 1 deletion(-)
+
+diff --git a/configure.ac b/configure.ac
+index 5f4fd16d8..13c10f8e4 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -1514,6 +1514,26 @@ CheckGDwarf4()
+     fi
+ }
+ 
++dnl See if GCC's -gstabs is supported
++dnl Free Pascal defaults to stabs on 32 bit Windows
++CheckGStabs()
++{
++    AC_MSG_CHECKING(for GCC -gstabs option)
++    have_gcc_gstabs=no
++
++    save_CFLAGS="$CFLAGS"
++    CFLAGS="$save_CFLAGS -gstabs"
++    AC_COMPILE_IFELSE([AC_LANG_PROGRAM([[
++    int x = 0;
++    ]],[])], [have_gcc_gstabs=yes],[])
++    AC_MSG_RESULT($have_gcc_gstabs)
++    CFLAGS="$save_CFLAGS"
++
++    if test x$have_gcc_gstabs = xyes; then
++        EXTRA_CFLAGS="$EXTRA_CFLAGS -gstabs"
++    fi
++}
++
+ dnl See if GCC's -fvisibility=hidden is supported (gcc4 and later, usually).
+ dnl  Details of this flag are here: http://gcc.gnu.org/wiki/Visibility
+ CheckVisibilityHidden()
+@@ -4021,7 +4041,14 @@ case "$host" in
+         if test x$enable_loadso = xyes; then
+             have_loadso=yes
+         fi
+-        CheckGDwarf4
++        case "$host" in
++        *64-*-*)
++                CheckGDwarf4
++                ;;
++        *)
++                CheckGStabs
++                ;;
++        esac
+         CheckWerror
+         CheckDeclarationAfterStatement
+         CheckDummyVideo
+-- 
+2.23.0
+
