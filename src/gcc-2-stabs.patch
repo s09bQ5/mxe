@@ -1,0 +1,26 @@
+From 9310d8332533fed2ccc898b54dad7448d0f05c34 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Daniel=20Gl=C3=B6ckner?= <daniel-gl@gmx.net>
+Date: Mon, 29 May 2023 15:04:54 +0200
+Subject: [PATCH] Prefer stabs debugging info on 32 bit Windows
+
+That's what the Free Pascal backtrace code expects by default.
+---
+ gcc/config/i386/cygming.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/gcc/config/i386/cygming.h b/gcc/config/i386/cygming.h
+index cfbca34f9..6e655fbbb 100644
+--- a/gcc/config/i386/cygming.h
++++ b/gcc/config/i386/cygming.h
+@@ -25,7 +25,7 @@ along with GCC; see the file COPYING3.  If not see
+ 
+ #undef PREFERRED_DEBUGGING_TYPE
+ #if (DWARF2_DEBUGGING_INFO)
+-#define PREFERRED_DEBUGGING_TYPE DWARF2_DEBUG
++#define PREFERRED_DEBUGGING_TYPE (TARGET_64BIT ? DWARF2_DEBUG : DBX_DEBUG)
+ #else
+ #define PREFERRED_DEBUGGING_TYPE DBX_DEBUG
+ #endif
+-- 
+2.20.1
+
