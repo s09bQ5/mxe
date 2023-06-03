@@ -65,7 +65,7 @@ define $(PKG)_BUILD_SHARED
     $(MAKE) -C '$(1)/src' -j '$(JOBS)' \
         INSTALL_TOP='$(PREFIX)/$(TARGET)' \
         CC='$(TARGET)-gcc -g' \
-        AR='$(TARGET)-gcc -Wl,--out-implib,liblua.dll.a -shared -o' \
+        AR='$(TARGET)-gcc -Wl,--out-implib,liblua.dll.a -shared -static-libgcc -o' \
         RANLIB='echo skipped ranlib' \
         SYSCFLAGS='-DLUA_BUILD_AS_DLL' \
         LUA_A=lua$($(PKG)_DLLVER).dll \
