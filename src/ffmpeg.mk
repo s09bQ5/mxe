@@ -3,10 +3,10 @@
 PKG             := ffmpeg
 $(PKG)_WEBSITE  := https://ffmpeg.org/
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 4.2.3
-$(PKG)_CHECKSUM := 217eb211c33303b37c5521a5abe1f0140854d6810c6a6ee399456cc96356795e
+$(PKG)_VERSION  := 6.0
+$(PKG)_CHECKSUM := 57be87c22d9b49c112b6d24bc67d42508660e6b718b3db89c44e47e289137082
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
-$(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.bz2
+$(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := https://ffmpeg.org/releases/$($(PKG)_FILE)
 $(PKG)_DEPS     := cc bzip2 gnutls lame libass libbluray libbs2b libcaca \
                    libvpx opencore-amr opus sdl2 speex theora vidstab \
@@ -35,7 +35,7 @@ define $(PKG)_BUILD
         $(if $(BUILD_STATIC), \
             --enable-static --disable-shared , \
             --disable-static --enable-shared ) \
-        --yasmexe='$(TARGET)-yasm' \
+        --x86asmexe='$(TARGET)-yasm' \
         --disable-debug \
         --disable-pthreads \
         --enable-w32threads \
