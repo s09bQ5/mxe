@@ -9,7 +9,7 @@ $(PKG)_CHECKSUM := 931c9be5bf1d7c8fae9b7dc157828b7eee874e23c7f24b44ba7eff6b48363
 $(PKG)_SUBDIR   := SDL2_image-$($(PKG)_VERSION)
 $(PKG)_FILE     := SDL2_image-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://www.libsdl.org/projects/SDL_image/release/$($(PKG)_FILE)
-$(PKG)_DEPS     := cc jpeg libpng libwebp sdl2 tiff
+$(PKG)_DEPS     := cc libjpeg-turbo libpng libwebp sdl2 tiff
 
 define $(PKG)_BUILD
     $(SED) -i 's,^\(Requires:.*\),\1\nRequires.private: libtiff-4 libpng libwebp,' '$(1)/SDL2_image.pc.in'
