@@ -9,15 +9,15 @@ $(PKG)_CHECKSUM := ad8fea3da1be64c83c45b1d363a6b4ba8fd60f5bde3b23ec73855709ec5ea
 $(PKG)_SUBDIR   := SDL2-$($(PKG)_VERSION)
 $(PKG)_FILE     := SDL2-$($(PKG)_VERSION).tar.gz
 $(PKG)_URL      := https://www.libsdl.org/release/$($(PKG)_FILE)
-$(PKG)_DEPS     := cc libiconv libsamplerate
+$(PKG)_DEPS     := cc
 
 define $(PKG)_BUILD
     cd '$(1)' && aclocal -I acinclude && autoconf && $(SHELL) ./configure \
         $(MXE_CONFIGURE_OPTS) \
         --enable-threads \
         --enable-directx \
-        --enable-libsamplerate \
-        --enable-libsamplerate-shared=$(if $(BUILD_SHARED),yes,no)
+        --disable-libsamplerate \
+        --disable-libsamplerate-shared
     $(SED) -i 's,defined(__MINGW64_VERSION_MAJOR),defined(__MINGW64_VERSION_MAJOR) \&\& defined(_WIN64),' '$(1)/include/SDL_cpuinfo.h'
     $(SED) -i 's,-XCClinker,,' '$(1)/sdl2.pc'
     $(SED) -i 's,-XCClinker,,' '$(1)/sdl2-config'
