@@ -1,0 +1,13 @@
+diff --git a/configure.ac b/configure.ac
+index d3c7236..ed13b98 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -274,7 +274,7 @@ case "$host" in
+     *)
+         save_LDFLAGS="$LDFLAGS"
+         LDFLAGS="$LDFLAGS -Wl,--dynamicbase"
+-        AC_LINK_IFELSE([AC_LANG_PROGRAM([],[])], [
++        AC_LINK_IFELSE([false], [
+         have_dynamicbase=yes
+         EXTRA_LDFLAGS="$EXTRA_LDFLAGS -Wl,--dynamicbase"
+         ],[])
