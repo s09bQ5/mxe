@@ -1,0 +1,55 @@
+diff --git a/configure b/configure
+index 6ad7529..9d0c329 100755
+--- a/configure
++++ b/configure
+@@ -5605,12 +5605,13 @@ case $target_os in
+         SLIB_INSTALL_EXTRA_SHLIB='$(SLIBNAME:$(SLIBSUF)=.lib)'
+         SLIB_INSTALL_EXTRA_LIB='lib$(SLIBNAME:$(SLIBSUF)=.dll.a) $(SLIBNAME_WITH_MAJOR:$(SLIBSUF)=.def)'
+         SLIB_CREATE_DEF_CMD='EXTERN_PREFIX="$(EXTERN_PREFIX)" AR="$(AR_CMD)" NM="$(NM_CMD)" $(SRC_PATH)/compat/windows/makedef $(SUBDIR)lib$(NAME).ver $(OBJS) > $$(@:$(SLIBSUF)=.def)'
+-        SHFLAGS='-shared -Wl,--out-implib,$(SUBDIR)lib$(SLIBNAME:$(SLIBSUF)=.dll.a) -Wl,--disable-auto-image-base $$(@:$(SLIBSUF)=.def)'
++        SHFLAGS='-shared -Wl,--out-implib,$(SUBDIR)lib$(SLIBNAME:$(SLIBSUF)=.dll.a) $(if $(IMAGEBASE_$(NAME)),-Xlinker --image-base=$(IMAGEBASE_$(NAME))) $$(@:$(SLIBSUF)=.def)'
+         enabled x86_64 && objformat="win64" || objformat="win32"
+         dlltool="${cross_prefix}dlltool"
+         ranlib=:
+         enable dos_paths
+-        check_ldflags -Wl,--nxcompat,--dynamicbase
++        check_ldflags -Wl,--nxcompat
++        check_ldflags -Wl,--disable-dynamicbase
+         # Lets work around some stupidity in binutils.
+         # ld will strip relocations from executables even though we need them
+         # for dynamicbase (ASLR).  Using -pie does retain the reloc section
+diff --git a/libavcodec/x86/Makefile b/libavcodec/x86/Makefile
+index 118daca..4167937 100644
+--- a/libavcodec/x86/Makefile
++++ b/libavcodec/x86/Makefile
+@@ -1,3 +1,6 @@
++ifeq ($(ARCH_X86_32),yes)
++IMAGEBASE_avcodec = 0x5E800000
++endif
+ OBJS                                   += x86/constants.o               \
+ 
+ # subsystems
+diff --git a/libswresample/x86/Makefile b/libswresample/x86/Makefile
+index fa0641f..e354bc4 100644
+--- a/libswresample/x86/Makefile
++++ b/libswresample/x86/Makefile
+@@ -1,3 +1,7 @@
++ifeq ($(ARCH_X86_32),yes)
++IMAGEBASE_swresample = 0x6E000000
++endif
++
+ X86ASM-OBJS                     += x86/audio_convert.o\
+                                    x86/rematrix.o\
+                                    x86/resample.o\
+diff --git a/libswscale/x86/Makefile b/libswscale/x86/Makefile
+index 6839149..f2ba7b5 100644
+--- a/libswscale/x86/Makefile
++++ b/libswscale/x86/Makefile
+@@ -1,3 +1,7 @@
++ifeq ($(ARCH_X86_32),yes)
++IMAGEBASE_swscale = 0x6E800000
++endif
++
+ $(SUBDIR)x86/swscale_mmx.o: CFLAGS += $(NOREDZONE_FLAGS)
+ 
+ OBJS                            += x86/rgb2rgb.o                        \
