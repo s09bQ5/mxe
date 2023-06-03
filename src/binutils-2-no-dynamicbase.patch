@@ -1,0 +1,14 @@
+diff --git a/ld/emultempl/pe.em b/ld/emultempl/pe.em
+index 8f6856dd..47e55cbb 100644
+--- a/ld/emultempl/pe.em
++++ b/ld/emultempl/pe.em
+@@ -115,8 +115,7 @@ fragment <<EOF
+ #endif
+ 
+ #define DEFAULT_DLL_CHARACTERISTICS	(${cygwin_behavior} ? 0 : \
+-					   IMAGE_DLL_CHARACTERISTICS_DYNAMIC_BASE \
+-					 | IMAGE_DLL_CHARACTERISTICS_NX_COMPAT)
++					 IMAGE_DLL_CHARACTERISTICS_NX_COMPAT)
+ 
+ #if defined(TARGET_IS_i386pe) || ! defined(DLL_SUPPORT)
+ #define	PE_DEF_SUBSYSTEM		3
