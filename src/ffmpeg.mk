@@ -63,7 +63,7 @@ define $(PKG)_BUILD
         --enable-libvpx \
         --enable-libx264 \
         --enable-libxvid \
-        --extra-ldflags="-fstack-protector" \
+        --extra-ldflags="-fstack-protector -static-libgcc" \
         $($(PKG)_CONFIGURE_OPTS)
     $(MAKE) -C '$(BUILD_DIR)' -j '$(JOBS)'
     $(MAKE) -C '$(BUILD_DIR)' -j 1 install
