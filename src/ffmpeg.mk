@@ -8,9 +8,7 @@ $(PKG)_CHECKSUM := 57be87c22d9b49c112b6d24bc67d42508660e6b718b3db89c44e47e289137
 $(PKG)_SUBDIR   := $(PKG)-$($(PKG)_VERSION)
 $(PKG)_FILE     := $(PKG)-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := https://ffmpeg.org/releases/$($(PKG)_FILE)
-$(PKG)_DEPS     := cc bzip2 gnutls lame libass libbluray libbs2b libcaca \
-                   libvpx opencore-amr opus sdl2 speex theora vidstab \
-                   vo-amrwbenc vorbis x264 xvidcore yasm zlib
+$(PKG)_DEPS     := cc dav1d yasm zlib
 
 # DO NOT ADD fdk-aac OR openssl SUPPORT.
 # Although they are free softwares, their licenses are not compatible with
@@ -41,28 +39,28 @@ define $(PKG)_BUILD
         --disable-pthreads \
         --enable-w32threads \
         --disable-doc \
-        --enable-avresample \
-        --enable-gpl \
+        --enable-libdav1d \
         --enable-version3 \
         --extra-libs='-mconsole' \
-        --enable-avisynth \
-        --enable-gnutls \
-        --enable-libass \
-        --enable-libbluray \
-        --enable-libbs2b \
-        --enable-libcaca \
-        --enable-libmp3lame \
-        --enable-libopencore-amrnb \
-        --enable-libopencore-amrwb \
-        --enable-libopus \
-        --enable-libspeex \
-        --enable-libtheora \
-        --enable-libvidstab \
-        --enable-libvo-amrwbenc \
-        --enable-libvorbis \
-        --enable-libvpx \
-        --enable-libx264 \
-        --enable-libxvid \
+        --disable-programs \
+        --disable-doc \
+        --disable-encoders \
+        --disable-iconv \
+        --disable-xlib \
+        --disable-libxcb \
+        --disable-libxcb-shm \
+        --disable-libx264 \
+        --disable-libx265 \
+        --disable-network \
+        --disable-indevs \
+        --disable-outdevs \
+        --disable-postproc \
+        --disable-muxers \
+        --disable-bsfs \
+        --disable-filters \
+        --disable-protocols \
+        --disable-lzma \
+        --disable-bzlib \
         --extra-ldflags="-fstack-protector -static-libgcc" \
         $($(PKG)_CONFIGURE_OPTS)
     $(MAKE) -C '$(BUILD_DIR)' -j '$(JOBS)'
