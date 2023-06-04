@@ -36,7 +36,8 @@ define $(PKG)_BUILD
             --enable-static --disable-shared , \
             --disable-static --enable-shared ) \
         --x86asmexe='$(TARGET)-yasm' \
-        --disable-debug \
+        --enable-debug \
+        --disable-stripping \
         --disable-pthreads \
         --enable-w32threads \
         --disable-doc \
