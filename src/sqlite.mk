@@ -23,8 +23,8 @@ define $(PKG)_BUILD
         --build='$(BUILD)' \
         --prefix='$(PREFIX)/$(TARGET)' \
         $(if $(BUILD_STATIC), \
-            --enable-static --disable-shared , \
-            --disable-static --enable-shared ) \
+            --disable-shared , \
+            --disable-static --out-implib ) \
         --disable-readline \
         CFLAGS="-Os -g -DSQLITE_THREADSAFE=1 -DSQLITE_ENABLE_COLUMN_METADATA"
     $(SED) -i 's:^/\*\+ Begin file \([^ ]\+\) \*\+/:#line 1 "\1":;s:^/\*\+ Continuing where we left off in \([^ ]\+\) \*\+/:#line xxx "\1":' $(1)/sqlite3.c
