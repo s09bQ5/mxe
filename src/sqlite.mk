@@ -49,4 +49,5 @@ define $(PKG)_BUILD
     )
 
     $(MAKE) -C '$(1)' -j 1 install
+    $(if $(BUILD_SHARED),mv $(PREFIX)/$(TARGET)/lib/libsqlite3.dll $(PREFIX)/$(TARGET)/bin/,)
 endef
