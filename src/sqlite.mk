@@ -18,7 +18,7 @@ define $(PKG)_UPDATE
 endef
 
 define $(PKG)_BUILD
-    cd '$(1)' && ./configure \
+    cd '$(BUILD_DIR)' && $(SOURCE_DIR)/configure \
         --host='$(TARGET)' \
         --build='$(BUILD)' \
         --prefix='$(PREFIX)/$(TARGET)' \
@@ -27,8 +27,8 @@ define $(PKG)_BUILD
             --disable-static --out-implib ) \
         --disable-readline \
         CFLAGS="-Os -g -DSQLITE_THREADSAFE=1 -DSQLITE_ENABLE_COLUMN_METADATA"
-    $(SED) -i 's:^/\*\+ Begin file \([^ ]\+\) \*\+/:#line 1 "\1":;s:^/\*\+ Continuing where we left off in \([^ ]\+\) \*\+/:#line xxx "\1":' $(1)/sqlite3.c
-    grep -n ^#line $(1)/sqlite3.c | $(SED) 's/:#line//;s/"//g;s/\./____/g' | ( \
+    $(SED) -i 's:^/\*\+ Begin file \([^ ]\+\) \*\+/:#line 1 "\1":;s:^/\*\+ Continuing where we left off in \([^ ]\+\) \*\+/:#line xxx "\1":' $(SOURCE_DIR)/sqlite3.c
+    grep -n ^#line $(SOURCE_DIR)/sqlite3.c | $(SED) 's/:#line//;s/"//g;s/\./____/g' | ( \
         fixup="" ; \
         prev="" ; \
         prevdelta=0 ; \
@@ -45,8 +45,9 @@ define $(PKG)_BUILD
             prevdelta="$$((a+1-b))" ; \
             prev="$$c" ; \
         done ; \
-        $(SED) -i "$$fixup" $(1)/sqlite3.c \
+        $(SED) -i "$$fixup" $(SOURCE_DIR)/sqlite3.c \
     )
 
-    $(MAKE) -C '$(1)' -j 1 install
+    $(MAKE) -C '$(BUILD_DIR)' -j '$(JOBS)'
+    $(MAKE) -C '$(BUILD_DIR)' -j 1 install
 endef
