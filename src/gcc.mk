@@ -4,9 +4,9 @@ PKG             := gcc
 $(PKG)_WEBSITE  := https://gcc.gnu.org/
 $(PKG)_DESCR    := GCC
 $(PKG)_IGNORE   :=
-$(PKG)_VERSION  := 11.5.0
+$(PKG)_VERSION  := 13.4.0
 $(PKG)_RELEASE  := $($(PKG)_VERSION)
-$(PKG)_CHECKSUM := a6e21868ead545cf87f0c01f84276e4b5281d672098591c1c896241f09363478
+$(PKG)_CHECKSUM := 9c4ce6dbb040568fdc545588ac03c5cbc95a8dbf0c7aa490170843afb59ca8f5
 $(PKG)_SUBDIR   := gcc-$($(PKG)_VERSION)
 $(PKG)_FILE     := gcc-$($(PKG)_VERSION).tar.xz
 $(PKG)_URL      := https://ftp.gnu.org/gnu/gcc/gcc-$($(PKG)_VERSION)/$($(PKG)_FILE)
@@ -79,6 +79,9 @@ define $(PKG)_BUILD_mingw-w64
         --with-default-win32-winnt=0x0601 \
         $(mingw-w64-headers_CONFIGURE_OPTS)
     $(MAKE) -C '$(BUILD_DIR).headers' install
+    # GCC fixincludes expects headers in $(TARGET)/mingw/include.
+    mkdir -p '$(PREFIX)/$(TARGET)/mingw/include'
+    cp -a '$(PREFIX)/$(TARGET)/include/.' '$(PREFIX)/$(TARGET)/mingw/include'
 
     # build standalone gcc
     $($(PKG)_CONFIGURE)

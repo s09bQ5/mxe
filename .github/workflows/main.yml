@@ -2,8 +2,8 @@ name: Build
 
 on: [push, pull_request]
 jobs:
-  build_i686:
-    name: Build for 32 bit x86
+  build_x86_64:
+    name: Build for 64 bit x86_64
     runs-on: ubuntu-22.04
     steps:
       - name: Install dependencies
@@ -40,7 +40,7 @@ jobs:
       - name: Collect Artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: usdx-dlls-i686
+          name: usdx-dlls-x86_64
           path: DLLs/*
           if-no-files-found: error
       - name: Cleanup Download Cache
