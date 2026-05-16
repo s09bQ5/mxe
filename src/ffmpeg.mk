@@ -61,7 +61,7 @@ define $(PKG)_BUILD
         --disable-protocols \
         --disable-lzma \
         --disable-bzlib \
-        --extra-ldflags="-fstack-protector -static-libgcc" \
+        --extra-ldflags="-fstack-protector" \
         $($(PKG)_CONFIGURE_OPTS)
     $(MAKE) -C '$(BUILD_DIR)' -j '$(JOBS)'
     $(MAKE) -C '$(BUILD_DIR)' -j 1 install
