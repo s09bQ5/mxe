@@ -70,3 +70,5 @@ for dll in "$MXE/usr/$TARGET/bin"/opencv_*.dll "$MXE/usr/$TARGET/bin"/libopencv_
 	base=$(basename "$dll" .dll)
 	add_dll "$dll" "$base"
 done
+
+$MXE/makeconfig.sh $MXE $TARGET > $DLL_DIR/config-win.inc
